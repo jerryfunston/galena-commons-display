@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Galena Commons</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --navy: #1f3a5f;
+    --navy-deep: #16293f;
+    --sage: #6b8e5a;
+    --honey: #e9c876;
+    --cream: #f7f3ec;
+    --cream-dim: #ece5d6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--navy-deep);
+    font-family: 'Source Serif 4', Georgia, serif;
+    color: var(--cream);
+  }
+
+  /* ---- ALL SLIDES ---- */
+  .slide {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    overflow: hidden;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ========== MAIN DIRECTORY SLIDE ========== */
+  #mainSlide {
+    display: flex;
+    flex-direction: column;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(107,142,90,0.12), transparent 55%),
+      radial-gradient(ellipse at 85% 100%, rgba(233,200,118,0.08), transparent 50%),
+      var(--navy-deep);
+  }
+
+  header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2vh 3.5vw;
+    border-bottom: 1px solid rgba(233,200,118,0.25);
+  }
+
+  .brand { display: flex; align-items: center; gap: 1.2vw; }
+  .brand svg { width: 4vw; height: 4vw; min-width: 44px; min-height: 44px; }
+  .brand-text .name {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 2.4vw;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .brand-text .name .commons { color: var(--honey); }
+  .brand-text .addr {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.9vw;
+    color: var(--cream-dim);
+    letter-spacing: 0.08em;
+    margin-top: 0.4vh;
+    text-transform: uppercase;
+  }
+  .clockwx { text-align: right; font-family: 'Raleway', sans-serif; }
+  .clockwx .time { font-size: 2.4vw; font-weight: 300; line-height: 1; }
+  .clockwx .date { font-size: 0.9vw; color: var(--cream-dim); margin-top: 0.4vh; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    min-height: 0;
+  }
+
+  .panel { padding: 2.5vh 3.5vw; overflow: hidden; }
+  .panel + .panel { border-left: 1px solid rgba(233,200,118,0.2); }
+  .panel h2 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 1.3vw;
+    letter-spacing: 0.1em;
+    color: var(--honey);
+    text-transform: uppercase;
+    margin-bottom: 2vh;
+    display: flex;
+    align-items: center;
+    gap: 0.8vw;
+  }
+  .panel h2::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(233,200,118,0.4), transparent); }
+
+  .floor-block { margin-bottom: 2vh; }
+  .floor-label { font-family: 'Raleway', sans-serif; font-size: 0.85vw; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); margin-bottom: 0.8vh; }
+  .tenant-row { display: flex; align-items: baseline; gap: 1vw; padding: 0.8vh 0; border-bottom: 1px dotted rgba(247,243,236,0.18); font-size: 1.4vw; }
+  .tenant-row .dot { width: 0.45vw; height: 0.45vw; min-width: 5px; min-height: 5px; border-radius: 50%; background: var(--honey); flex-shrink: 0; }
+  .tenant-row .tname { font-weight: 600; }
+  .tenant-row .ttag { font-family: 'Raleway', sans-serif; font-size: 0.85vw; color: var(--cream-dim); margin-left: auto; }
+
+  .event-card { display: flex; gap: 1.2vw; padding: 1.4vh 0; border-bottom: 1px solid rgba(247,243,236,0.1); }
+  .event-date { flex-shrink: 0; width: 4.4vw; text-align: center; background: rgba(107,142,90,0.18); border: 1px solid rgba(107,142,90,0.4); border-radius: 8px; padding: 0.7vh 0; font-family: 'Raleway', sans-serif; }
+  .event-date .mon { font-size: 0.75vw; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); }
+  .event-date .day { font-size: 1.7vw; font-weight: 700; line-height: 1.1; }
+  .event-info .etitle { font-size: 1.25vw; font-weight: 600; }
+  .event-info .emeta { font-family: 'Raleway', sans-serif; font-size: 0.9vw; color: var(--cream-dim); margin-top: 0.3vh; }
+
+  footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    padding: 1.4vh 3.5vw;
+    background: rgba(0,0,0,0.18);
+    border-top: 1px solid rgba(233,200,118,0.25);
+  }
+  .wx { display: flex; align-items: center; gap: 0.8vw; flex-shrink: 0; font-family: 'Raleway', sans-serif; }
+  .wx svg { width: 2.4vw; height: 2.4vw; min-width: 28px; }
+  .wx .temp { font-size: 1.7vw; font-weight: 700; }
+  .wx .cond { font-size: 0.85vw; color: var(--cream-dim); }
+  .ticker-wrap { flex: 1; overflow: hidden; white-space: nowrap; mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent); }
+  .ticker { display: inline-block; padding-left: 100%; font-family: 'Raleway', sans-serif; font-size: 1vw; animation: scroll-left var(--ticker-duration, 40s) linear infinite; }
+  .ticker .sep { color: var(--honey); margin: 0 1.4vw; }
+  @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+  .progress-dots { display: flex; gap: 0.5vw; flex-shrink: 0; }
+  .progress-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(233,200,118,0.3); transition: background 0.3s; }
+  .progress-dots span.active { background: var(--honey); }
+
+  /* ========== BUSINESS SLIDES ========== */
+  .biz-slide {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .biz-accent-bar {
+    flex-shrink: 0;
+    height: 6px;
+    width: 100%;
+  }
+
+  .biz-body {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5vh 8vw;
+    gap: 6vw;
+    min-height: 0;
+  }
+
+  .biz-left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .biz-eyebrow {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1vw;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 2vh;
+  }
+
+  .biz-name {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 4vw;
+    line-height: 1.15;
+    margin-bottom: 3vh;
+  }
+
+  .biz-tagline {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.3vw;
+    font-weight: 300;
+    line-height: 1.6;
+    opacity: 0.85;
+    margin-bottom: 2.5vh;
+  }
+
+  .biz-url {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1vw;
+    letter-spacing: 0.06em;
+    opacity: 0.55;
+  }
+
+  .biz-right {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qr-wrap {
+    background: white;
+    padding: 14px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .qr-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7vw;
+    color: #1f3a5f;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .biz-footer {
+    flex-shrink: 0;
+    text-align: center;
+    padding: 1.5vh 0 2vh;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 0.8vw;
+    letter-spacing: 0.15em;
+    opacity: 0.3;
+  }
+
+  .biz-bg-dots {
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    background-image: radial-gradient(circle, white 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- MAIN DIRECTORY SLIDE -->
+<div class="slide active" id="mainSlide">
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" stroke="#e9c876" stroke-width="2"/>
+        <path d="M50 70 V40" stroke="#6b8e5a" stroke-width="3" stroke-linecap="round"/>
+        <path d="M50 55 C40 50 35 42 38 34" stroke="#6b8e5a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M50 50 C60 45 65 37 62 29" stroke="#6b8e5a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <circle cx="50" cy="32" r="14" fill="#6b8e5a" opacity="0.85"/>
+        <circle cx="36" cy="36" r="9" fill="#6b8e5a" opacity="0.7"/>
+        <circle cx="64" cy="34" r="10" fill="#6b8e5a" opacity="0.7"/>
+        <circle cx="48" cy="26" r="2.2" fill="#e9c876"/>
+        <circle cx="58" cy="30" r="2.2" fill="#e9c876"/>
+      </svg>
+      <div class="brand-text">
+        <div class="name">THE GALENA <span class="commons">COMMONS</span></div>
+        <div class="addr">70 N Walnut St · Galena, OH</div>
+      </div>
+    </div>
+    <div class="clockwx">
+      <div class="time" id="clockTime">--:--</div>
+      <div class="date" id="clockDate">Loading…</div>
+    </div>
+  </header>
+  <main>
+    <section class="panel">
+      <h2>Our Tenants</h2>
+      <div id="tenantList"></div>
+    </section>
+    <section class="panel">
+      <h2>Upcoming</h2>
+      <div id="eventList"></div>
+    </section>
+  </main>
+  <footer>
+    <div class="wx">
+      <svg viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="5" fill="#e9c876"/>
+        <g stroke="#e9c876" stroke-width="1.6" stroke-linecap="round">
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/>
+        </g>
+      </svg>
+      <div>
+        <div class="temp" id="wxTemp">—</div>
+        <div class="cond" id="wxCond">Galena, OH</div>
+      </div>
+    </div>
+    <div class="ticker-wrap">
+      <div class="ticker" id="ticker"></div>
+    </div>
+    <div class="progress-dots" id="progressDots"></div>
+  </footer>
+</div>
+
+<!-- BUSINESS SLIDES -->
+<div id="bizSlides"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+<script>WebFont.load({ google: { families: ['Cinzel:600,700','Raleway:300,400,600','Source Serif 4:400,600'] } });</script>
+
+<script>
+/* ================================================================
+   EDIT THIS — all content lives here.
+   ================================================================ */
+const CONFIG = {
+  weatherApiKey: "2f04018ea7c9188d481144c8e27637ac",
+  weatherCity: "Galena,OH,US",
+  weatherUnits: "imperial",
+  mainSlideDuration: 20000,
+  bizSlideDuration:  10000,
+
+  tenants: [
+    { floor: "First Floor", list: [
+      { name: "Common Tax & Bookkeeping", tag: "Tax · Bookkeeping · IRS Rep" },
+      { name: "Grace Church", tag: "" },
+      { name: "Common Table Church", tag: "Sundays, Evening" },
+    ]},
+    { floor: "Second Floor", list: [
+      { name: "A Warrior's Place Yoga", tag: "" },
+      { name: "Wild Blooms Wellness", tag: "" },
+      { name: "LA Counseling", tag: "" },
+    ]}
+  ],
+
+  events: [
+    { month: "JUL", day: "06", title: "Common Table Church",      meta: "Sunday · 6:00 PM" },
+    { month: "JUL", day: "12", title: "Food Pantry Volunteer Day", meta: "Saturday · 9:00 AM" },
+    { month: "JUL", day: "13", title: "Common Table Church",      meta: "Sunday · 6:00 PM" },
+    { month: "JUL", day: "20", title: "Common Table Church",      meta: "Sunday · 6:00 PM" },
+  ],
+
+  tickerItems: [
+    "Welcome to The Galena Commons — Community · Commerce · Connection",
+    "Common Tax & Bookkeeping — Tax help, bookkeeping, and IRS representation · First floor",
+    "Common Table Church meets Sunday evenings — all are welcome",
+    "Interested in leasing space? Contact Megan Funston for availability",
+    "Second floor: A Warrior's Place Yoga · Wild Blooms Wellness · LA Counseling",
+  ],
+  tickerSpeedSeconds: 38,
+
+  businesses: [
+    {
+      name: "Common Tax\n& Bookkeeping",
+      eyebrow: "First Floor · Tax & Financial Services",
+      tagline: "Tax preparation, bookkeeping, and IRS representation.\nMeeting you where you are — with integrity, compassion, and wisdom.",
+      url: "commontaxpro.com",
+      qr: "https://commontaxpro.com",
+      bg: "linear-gradient(135deg, #16293f 0%, #1f3a5f 100%)",
+      accent: "#e9c876",
+      text: "#f7f3ec",
+    },
+    {
+      name: "Grace Church",
+      eyebrow: "First Floor · Faith Community",
+      tagline: "A welcoming congregation\ngathering right here in the Commons.",
+      url: "sunbury.church",
+      qr: "https://sunbury.church/",
+      bg: "linear-gradient(135deg, #1a3a2a 0%, #2a5a3a 100%)",
+      accent: "#8ec47a",
+      text: "#f7f3ec",
+    },
+    {
+      name: "Common Table\nChurch",
+      eyebrow: "First Floor · Faith Community",
+      tagline: "Sunday evenings.\nAll are welcome at the table.",
+      url: "thegalenacommons.com",
+      qr: "https://thegalenacommons.com",
+      bg: "linear-gradient(135deg, #16293f 0%, #2a3f5f 100%)",
+      accent: "#e9c876",
+      text: "#f7f3ec",
+    },
+    {
+      name: "A Warrior's\nPlace Yoga",
+      eyebrow: "Second Floor · Yoga & Wellness",
+      tagline: "Find your strength. Find your peace.\nYoga for every body.",
+      url: "awarriorsplace.com",
+      qr: "https://awarriorsplace.com/",
+      bg: "linear-gradient(135deg, #2a1f3f 0%, #3f2f5f 100%)",
+      accent: "#b09fd0",
+      text: "#f7f3ec",
+    },
+    {
+      name: "Wild Blooms\nWellness",
+      eyebrow: "Second Floor · Wellness",
+      tagline: "Rooted in nature. Blooming in health.\nHolistic wellness services.",
+      url: "wildbloomswellness.com",
+      qr: "https://www.wildbloomswellness.com/",
+      bg: "linear-gradient(135deg, #1a2f1a 0%, #2a4a2a 100%)",
+      accent: "#8ec47a",
+      text: "#f7f3ec",
+    },
+    {
+      name: "LA Counseling",
+      eyebrow: "Second Floor · Mental Health Services",
+      tagline: "Professional counseling services.\nA safe space to heal and grow.",
+      url: "lacounselingservices.com",
+      qr: "https://www.lacounselingservices.com/",
+      bg: "linear-gradient(135deg, #1f2a3f 0%, #2f3f5a 100%)",
+      accent: "#7aa8c4",
+      text: "#f7f3ec",
+    },
+  ],
+};
+
+/* ================================================================
+   ENGINE — no need to edit below
+   ================================================================ */
+function esc(str) {
+  const d = document.createElement('div');
+  d.textContent = str ?? '';
+  return d.innerHTML;
+}
+
+function renderTenants() {
+  document.getElementById('tenantList').innerHTML = CONFIG.tenants.map(block => `
+    <div class="floor-block">
+      <div class="floor-label">${esc(block.floor)}</div>
+      ${block.list.map(t => `
+        <div class="tenant-row">
+          <span class="dot"></span>
+          <span class="tname">${esc(t.name)}</span>
+          ${t.tag ? `<span class="ttag">${esc(t.tag)}</span>` : ''}
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function renderEvents() {
+  const root = document.getElementById('eventList');
+  root.innerHTML = CONFIG.events.length
+    ? CONFIG.events.map(e => `
+        <div class="event-card">
+          <div class="event-date"><div class="mon">${esc(e.month)}</div><div class="day">${esc(e.day)}</div></div>
+          <div class="event-info"><div class="etitle">${esc(e.title)}</div><div class="emeta">${esc(e.meta)}</div></div>
+        </div>`).join('')
+    : `<div style="font-family:'Raleway',sans-serif;color:var(--cream-dim);">No upcoming events posted.</div>`;
+}
+
+function renderTicker() {
+  document.documentElement.style.setProperty('--ticker-duration', CONFIG.tickerSpeedSeconds + 's');
+  document.getElementById('ticker').innerHTML =
+    CONFIG.tickerItems.map(esc).join('  <span class="sep">&#10072;</span>  ');
+}
+
+function buildBizSlides() {
+  const container = document.getElementById('bizSlides');
+  const qrSize = Math.min(Math.round(window.innerWidth * 0.11), 160);
+
+  CONFIG.businesses.forEach((biz, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'slide biz-slide';
+    slide.id = `biz${i}`;
+    slide.style.cssText = `background:${biz.bg}; color:${biz.text};`;
+
+    const nameHtml = biz.name.split('\n').map(esc).join('<br>');
+    const tagHtml  = biz.tagline.split('\n').map(esc).join('<br>');
+
+    slide.innerHTML = `
+      <div class="biz-bg-dots"></div>
+      <div class="biz-accent-bar" style="background:${biz.accent}"></div>
+      <div class="biz-body">
+        <div class="biz-left">
+          <div class="biz-eyebrow" style="color:${biz.accent}">${esc(biz.eyebrow)}</div>
+          <div class="biz-name">${nameHtml}</div>
+          <div class="biz-tagline">${tagHtml}</div>
+          <div class="biz-url" style="color:${biz.accent}">${esc(biz.url)}</div>
+        </div>
+        <div class="biz-right">
+          <div class="qr-wrap">
+            <div id="qr${i}"></div>
+            <div class="qr-label">Scan to visit</div>
+          </div>
+        </div>
+      </div>
+      <div class="biz-footer">THE GALENA COMMONS · 70 N WALNUT ST · GALENA, OH</div>
+    `;
+    container.appendChild(slide);
+
+    setTimeout(() => {
+      new QRCode(document.getElementById(`qr${i}`), {
+        text: biz.qr,
+        width: qrSize,
+        height: qrSize,
+        colorDark: "#1f3a5f",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }, 300 + i * 50);
+  });
+}
+
+function buildDots() {
+  const total = 1 + CONFIG.businesses.length;
+  document.getElementById('progressDots').innerHTML =
+    Array.from({length: total}, (_, i) =>
+      `<span id="dot${i}"${i === 0 ? ' class="active"' : ''}></span>`).join('');
+}
+
+let current = 0;
+let timer = null;
+
+function goTo(index) {
+  const all = document.querySelectorAll('.slide');
+  all.forEach(s => s.classList.remove('active'));
+  all[index].classList.add('active');
+  document.querySelectorAll('.progress-dots span').forEach((d, i) =>
+    d.classList.toggle('active', i === index));
+  current = index;
+  clearTimeout(timer);
+  const dur = index === 0 ? CONFIG.mainSlideDuration : CONFIG.bizSlideDuration;
+  timer = setTimeout(() => goTo((current + 1) % all.length), dur);
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clockTime').textContent =
+    now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  document.getElementById('clockDate').textContent =
+    now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+}
+
+async function updateWeather() {
+  if (!CONFIG.weatherApiKey) return;
+  try {
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(CONFIG.weatherCity)}&units=${CONFIG.weatherUnits}&appid=${CONFIG.weatherApiKey}`);
+    const data = await res.json();
+    if (data?.main) {
+      const sym = CONFIG.weatherUnits === 'imperial' ? '°F' : '°C';
+      document.getElementById('wxTemp').textContent = Math.round(data.main.temp) + sym;
+      document.getElementById('wxCond').textContent = data.weather?.[0]?.description ?? 'Galena, OH';
+    }
+  } catch(e) {}
+}
+
+renderTenants();
+renderEvents();
+renderTicker();
+buildBizSlides();
+buildDots();
+updateClock();
+updateWeather();
+goTo(0);
+
+setInterval(updateClock, 15000);
+setInterval(updateWeather, 900000);
+</script>
+</body>
+</html>
