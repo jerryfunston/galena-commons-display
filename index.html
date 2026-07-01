@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Galena Commons — Welcome</title>
+<style>
+  /* ============================================================
+     EDIT YOUR CONTENT DOWN IN THE <script> BLOCK AT THE BOTTOM.
+     Look for "EDIT THIS" — that's the only part you need to touch.
+     ============================================================ */
+
+  @font-face {
+    font-family: 'Cinzel';
+    src: local('Cinzel');
+  }
+
+  :root {
+    --navy: #1f3a5f;
+    --navy-deep: #16293f;
+    --sage: #6b8e5a;
+    --honey: #e9c876;
+    --cream: #f7f3ec;
+    --cream-dim: #ece5d6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--navy-deep);
+    font-family: 'Source Serif 4', Georgia, serif;
+    color: var(--cream);
+  }
+
+  link { display: none; }
+
+  .stage {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(107,142,90,0.12), transparent 55%),
+      radial-gradient(ellipse at 85% 100%, rgba(233,200,118,0.08), transparent 50%),
+      var(--navy-deep);
+  }
+
+  /* ---------- HEADER ---------- */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2.2vh 3.5vw 1.6vh;
+    border-bottom: 1px solid rgba(233,200,118,0.25);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1.2vw;
+  }
+
+  .brand svg { width: 4.2vw; height: 4.2vw; min-width: 48px; min-height: 48px; }
+
+  .brand-text .name {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 2.6vw;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .brand-text .name .commons { color: var(--honey); }
+  .brand-text .addr {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1vw;
+    color: var(--cream-dim);
+    letter-spacing: 0.08em;
+    margin-top: 0.4vh;
+    text-transform: uppercase;
+  }
+
+  .clockwx {
+    text-align: right;
+    font-family: 'Raleway', sans-serif;
+  }
+  .clockwx .time {
+    font-size: 2.6vw;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .clockwx .date {
+    font-size: 1vw;
+    color: var(--cream-dim);
+    margin-top: 0.5vh;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- MAIN: two columns ---------- */
+  main {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .panel {
+    padding: 3vh 3.5vw;
+    overflow: hidden;
+    position: relative;
+  }
+  .panel + .panel {
+    border-left: 1px solid rgba(233,200,118,0.2);
+  }
+
+  .panel h2 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 1.5vw;
+    letter-spacing: 0.1em;
+    color: var(--honey);
+    text-transform: uppercase;
+    margin-bottom: 2.4vh;
+    display: flex;
+    align-items: center;
+    gap: 0.8vw;
+  }
+  .panel h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(233,200,118,0.4), transparent);
+  }
+
+  /* ---- Tenant directory ---- */
+  .floor-block { margin-bottom: 2.6vh; }
+  .floor-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.95vw;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1vh;
+  }
+  .tenant-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1vw;
+    padding: 0.9vh 0;
+    border-bottom: 1px dotted rgba(247,243,236,0.18);
+    font-size: 1.5vw;
+  }
+  .tenant-row .dot {
+    width: 0.5vw; height: 0.5vw; min-width: 6px; min-height: 6px;
+    border-radius: 50%;
+    background: var(--honey);
+    flex-shrink: 0;
+  }
+  .tenant-row .tname { font-weight: 600; }
+  .tenant-row .ttag {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.95vw;
+    color: var(--cream-dim);
+    margin-left: auto;
+    text-align: right;
+  }
+
+  /* ---- Events ---- */
+  .event-card {
+    display: flex;
+    gap: 1.2vw;
+    padding: 1.6vh 0;
+    border-bottom: 1px solid rgba(247,243,236,0.1);
+  }
+  .event-date {
+    flex-shrink: 0;
+    width: 4.6vw;
+    text-align: center;
+    background: rgba(107,142,90,0.18);
+    border: 1px solid rgba(107,142,90,0.4);
+    border-radius: 8px;
+    padding: 0.8vh 0;
+    font-family: 'Raleway', sans-serif;
+  }
+  .event-date .mon {
+    font-size: 0.8vw;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+  .event-date .day {
+    font-size: 1.8vw;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .event-info .etitle {
+    font-size: 1.35vw;
+    font-weight: 600;
+  }
+  .event-info .emeta {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.95vw;
+    color: var(--cream-dim);
+    margin-top: 0.4vh;
+  }
+
+  /* ---------- FOOTER: weather + ticker ---------- */
+  footer {
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    padding: 1.6vh 3.5vw;
+    background: rgba(0,0,0,0.18);
+    border-top: 1px solid rgba(233,200,118,0.25);
+  }
+
+  .wx {
+    display: flex;
+    align-items: center;
+    gap: 0.8vw;
+    flex-shrink: 0;
+    font-family: 'Raleway', sans-serif;
+  }
+  .wx svg { width: 2.6vw; height: 2.6vw; min-width: 30px; min-height: 30px; }
+  .wx .temp { font-size: 1.8vw; font-weight: 700; }
+  .wx .cond { font-size: 0.95vw; color: var(--cream-dim); }
+
+  .ticker-wrap {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  }
+  .ticker {
+    display: inline-block;
+    padding-left: 100%;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.05vw;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    animation: scroll-left var(--ticker-duration, 40s) linear infinite;
+  }
+  .ticker .sep { color: var(--honey); margin: 0 1.4vw; }
+
+  @keyframes scroll-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker { animation: none; padding-left: 0; }
+  }
+
+  /* fade-in on load */
+  .stage { animation: fade-in 1.2s ease both; }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" stroke="#e9c876" stroke-width="2"/>
+        <path d="M50 70 V40" stroke="#6b8e5a" stroke-width="3" stroke-linecap="round"/>
+        <path d="M50 55 C40 50 35 42 38 34" stroke="#6b8e5a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M50 50 C60 45 65 37 62 29" stroke="#6b8e5a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <circle cx="50" cy="32" r="14" fill="#6b8e5a" opacity="0.85"/>
+        <circle cx="36" cy="36" r="9" fill="#6b8e5a" opacity="0.7"/>
+        <circle cx="64" cy="34" r="10" fill="#6b8e5a" opacity="0.7"/>
+        <circle cx="48" cy="26" r="2.2" fill="#e9c876"/>
+        <circle cx="58" cy="30" r="2.2" fill="#e9c876"/>
+      </svg>
+      <div class="brand-text">
+        <div class="name">THE GALENA <span class="commons">COMMONS</span></div>
+        <div class="addr" id="addrLine">70 N Walnut St · Galena, OH</div>
+      </div>
+    </div>
+    <div class="clockwx">
+      <div class="time" id="clockTime">--:--</div>
+      <div class="date" id="clockDate">Loading…</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" id="tenantPanel">
+      <h2>Our Tenants</h2>
+      <div id="tenantList"></div>
+    </section>
+
+    <section class="panel" id="eventPanel">
+      <h2>Upcoming</h2>
+      <div id="eventList"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wx">
+      <svg viewBox="0 0 24 24" fill="none" id="wxIcon">
+        <circle cx="12" cy="12" r="5" fill="#e9c876"/>
+        <g stroke="#e9c876" stroke-width="1.6" stroke-linecap="round">
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/>
+          <line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/>
+          <line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/>
+        </g>
+      </svg>
+      <div>
+        <div class="temp" id="wxTemp">--°</div>
+        <div class="cond" id="wxCond">Galena, OH</div>
+      </div>
+    </div>
+    <div class="ticker-wrap">
+      <div class="ticker" id="ticker"></div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+<script>
+  WebFont.load({ google: { families: ['Cinzel:600,700', 'Raleway:300,400,600', 'Source Serif 4:400,600'] } });
+</script>
+
+<script>
+/* ================================================================
+   EDIT THIS — everything you'll ever need to change lives here.
+   Save the file and refresh the TV's browser to see updates.
+   ================================================================ */
+
+const CONFIG = {
+
+  // Set this to your real OpenWeatherMap API key to show live weather.
+  // Get a free key at openweathermap.org/api (takes 2 minutes).
+  // Leave blank to show a static placeholder instead.
+  weatherApiKey: "",
+  weatherCity: "Galena,OH,US",
+  weatherUnits: "imperial", // "imperial" = °F, "metric" = °C
+
+  tenants: [
+    {
+      floor: "First Floor",
+      list: [
+        { name: "Common Tax & Bookkeeping", tag: "Tax · Bookkeeping · IRS Rep" },
+        { name: "Grace Church", tag: "" },
+        { name: "Common Table Church", tag: "Sundays, Evening" },
+      ]
+    },
+    {
+      floor: "Second Floor",
+      list: [
+        { name: "A Warrior's Place Yoga", tag: "" },
+        { name: "Wild Blooms Wellness", tag: "" },
+        { name: "LA Counseling", tag: "" },
+      ]
+    }
+  ],
+
+  // Add or remove events freely. Sort however you like — order shown = order listed.
+  events: [
+    { month: "JUL", day: "06", title: "Common Table Church", meta: "Sunday · 6:00 PM" },
+    { month: "JUL", day: "12", title: "Food Pantry Volunteer Day", meta: "Saturday · 9:00 AM" },
+    { month: "JUL", day: "13", title: "Common Table Church", meta: "Sunday · 6:00 PM" },
+    { month: "JUL", day: "20", title: "Common Table Church", meta: "Sunday · 6:00 PM" },
+  ],
+
+  // Scrolling message at the bottom. Add as many lines as you like — they'll loop continuously.
+  tickerItems: [
+    "Welcome to The Galena Commons — Community · Commerce · Connection",
+    "New to the building? Stop by Common Tax & Bookkeeping on the first floor for a friendly hello",
+    "Common Table Church meets Sunday evenings — all are welcome",
+    "Interested in leasing space here? Contact Megan Funston for availability",
+  ],
+
+  tickerSpeedSeconds: 38, // lower = faster scroll
+
+};
+
+/* ---------------- rendering — no need to edit below ---------------- */
+
+function renderTenants() {
+  const root = document.getElementById('tenantList');
+  root.innerHTML = CONFIG.tenants.map(block => `
+    <div class="floor-block">
+      <div class="floor-label">${escapeHtml(block.floor)}</div>
+      ${block.list.map(t => `
+        <div class="tenant-row">
+          <span class="dot"></span>
+          <span class="tname">${escapeHtml(t.name)}</span>
+          ${t.tag ? `<span class="ttag">${escapeHtml(t.tag)}</span>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function renderEvents() {
+  const root = document.getElementById('eventList');
+  if (!CONFIG.events.length) {
+    root.innerHTML = `<div style="font-family:'Raleway',sans-serif;color:var(--cream-dim);font-size:1.1vw;">No upcoming events posted right now.</div>`;
+    return;
+  }
+  root.innerHTML = CONFIG.events.map(e => `
+    <div class="event-card">
+      <div class="event-date">
+        <div class="mon">${escapeHtml(e.month)}</div>
+        <div class="day">${escapeHtml(e.day)}</div>
+      </div>
+      <div class="event-info">
+        <div class="etitle">${escapeHtml(e.title)}</div>
+        <div class="emeta">${escapeHtml(e.meta)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTicker() {
+  document.documentElement.style.setProperty('--ticker-duration', CONFIG.tickerSpeedSeconds + 's');
+  const text = CONFIG.tickerItems.map(escapeHtml).join('  <span class="sep">&#10072;</span>  ');
+  document.getElementById('ticker').innerHTML = text;
+}
+
+function updateClock() {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  document.getElementById('clockTime').textContent = timeStr;
+  document.getElementById('clockDate').textContent = dateStr;
+}
+
+async function updateWeather() {
+  const tempEl = document.getElementById('wxTemp');
+  const condEl = document.getElementById('wxCond');
+
+  if (!CONFIG.weatherApiKey) {
+    tempEl.textContent = "—";
+    condEl.textContent = "Add a weather API key in the config";
+    return;
+  }
+
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(CONFIG.weatherCity)}&units=${CONFIG.weatherUnits}&appid=${CONFIG.weatherApiKey}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data && data.main) {
+      const unitSymbol = CONFIG.weatherUnits === 'imperial' ? '°F' : '°C';
+      tempEl.textContent = Math.round(data.main.temp) + unitSymbol;
+      condEl.textContent = data.weather && data.weather[0] ? data.weather[0].description : 'Galena, OH';
+    }
+  } catch (err) {
+    tempEl.textContent = "—";
+    condEl.textContent = "Weather unavailable";
+  }
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str ?? '';
+  return div.innerHTML;
+}
+
+renderTenants();
+renderEvents();
+renderTicker();
+updateClock();
+updateWeather();
+
+setInterval(updateClock, 1000 * 15);
+setInterval(updateWeather, 1000 * 60 * 15); // refresh weather every 15 min
+
+</script>
+
+</body>
+</html>
