@@ -29,9 +29,28 @@
   .brand-text .name { font-family: 'Cinzel', Georgia, serif; font-size: 2.4vw; letter-spacing: 0.04em; line-height: 1; }
   .brand-text .name .commons { color: var(--honey); }
   .brand-text .addr { font-family: 'Raleway', sans-serif; font-size: 0.9vw; color: var(--cream-dim); letter-spacing: 0.08em; margin-top: 0.4vh; text-transform: uppercase; }
-  .clockwx { text-align: right; font-family: 'Raleway', sans-serif; }
-  .clockwx .time { font-size: 2.4vw; font-weight: 300; line-height: 1; }
-  .clockwx .date { font-size: 0.9vw; color: var(--cream-dim); margin-top: 0.4vh; letter-spacing: 0.06em; text-transform: uppercase; }
+  /* Persistent time/date overlay — sits above ALL slides (main + every
+     business slide), not nested inside any one slide. A semi-opaque dark
+     pill behind it guarantees contrast whether the active slide underneath
+     is a dark gradient or one of the light-theme slides. */
+  .corner-clock {
+    position: fixed;
+    top: 2vh;
+    right: 2vw;
+    z-index: 50;
+    text-align: right;
+    font-family: 'Raleway', sans-serif;
+    color: #f7f3ec;
+    background: rgba(10, 18, 28, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 0.8vh 1.1vw;
+    pointer-events: none;
+  }
+  .corner-clock .time { font-size: 1.3vw; font-weight: 300; line-height: 1; }
+  .corner-clock .date { font-size: 0.65vw; opacity: 0.8; margin-top: 0.3vh; letter-spacing: 0.06em; text-transform: uppercase; }
   main { flex: 1; display: grid; grid-template-columns: 1.1fr 1fr; min-height: 0; }
   .panel { padding: 2.5vh 3.5vw; overflow: hidden; }
   .panel + .panel { border-left: 1px solid rgba(233,200,118,0.2); }
@@ -459,10 +478,6 @@
         <div class="addr">70 N Walnut St · Galena, OH</div>
       </div>
     </div>
-    <div class="clockwx">
-      <div class="time" id="clockTime">--:--</div>
-      <div class="date" id="clockDate">Loading…</div>
-    </div>
   </header>
   <main>
     <section class="panel">
@@ -496,6 +511,14 @@
 </div>
 
 <div id="bizSlides"></div>
+
+<!-- Persistent time/date overlay — lives outside the .slide rotation
+     entirely, so it renders on top of whichever slide is active (main
+     directory or any business slide) rather than being tied to one. -->
+<div class="corner-clock">
+  <div class="time" id="clockTime">--:--</div>
+  <div class="date" id="clockDate">Loading…</div>
+</div>
 
 <!-- Invisible looping silent video — Fire TV / Silk browser is more likely
      to treat active video playback as "not idle" than a static page, even
