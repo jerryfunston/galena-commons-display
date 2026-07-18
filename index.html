@@ -72,6 +72,50 @@
   .event-info .etitle { font-size: 1.5vw; font-weight: 600; display: flex; align-items: center; gap: 0.6vw; }
   .event-info .emeta { font-family: 'Raleway', sans-serif; font-size: 1.05vw; color: var(--cream-dim); margin-top: 0.4vh; }
   .today-badge { font-family: 'Raleway', sans-serif; font-size: 0.7vw; font-weight: 700; letter-spacing: 0.1em; color: var(--navy-deep); background: var(--honey); padding: 0.25vh 0.6vw; border-radius: 20px; }
+
+  /* Fallback content in the "Upcoming" panel when there's nothing dated
+     in the lookahead window — the regular weekly worship schedule. */
+  .sched-fallback-heading {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 1.2vw;
+    letter-spacing: 0.06em;
+    color: var(--honey);
+    text-transform: uppercase;
+    margin-bottom: 1.6vh;
+  }
+  .sched-fallback-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1vw;
+    padding: 1vh 0;
+    border-bottom: 1px dotted rgba(247,243,236,0.18);
+  }
+  .sched-fallback-row .dot {
+    width: 0.5vw; height: 0.5vw; min-width: 6px; min-height: 6px;
+    border-radius: 50%;
+    background: var(--honey);
+    flex-shrink: 0;
+    margin-top: 0.6vh;
+  }
+  .sched-fallback-name {
+    font-size: 1.4vw;
+    font-weight: 600;
+  }
+  .sched-fallback-meta {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1vw;
+    color: var(--cream-dim);
+    margin-top: 0.3vh;
+  }
+  .sched-fallback-note {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.95vw;
+    color: var(--cream-dim);
+    opacity: 0.85;
+    font-style: italic;
+    margin-top: 2vh;
+    line-height: 1.5;
+  }
   footer { flex-shrink: 0; display: flex; align-items: center; gap: 2vw; padding: 1.4vh 3.5vw; background: rgba(0,0,0,0.18); border-top: 1px solid rgba(233,200,118,0.25); }
   .wx { display: flex; align-items: center; gap: 0.8vw; flex-shrink: 0; font-family: 'Raleway', sans-serif; }
   .wx svg { width: 2.4vw; height: 2.4vw; min-width: 28px; }
@@ -582,15 +626,25 @@ const CONFIG = {
   // change, or otherwise not already covered by a tenant tag.
   //
   // Each entry needs a real "date" (YYYY-MM-DD, with year). The panel is
-  // now fully automatic: it drops anything before today, sorts what's left
-  // by date, shows only the next eventsMaxShown, and flags the one
-  // happening today — no manual pruning of stale entries required.
+  // fully automatic: it drops anything before today, sorts what's left by
+  // date, shows only the next eventsMaxShown, and flags the one happening
+  // today — no manual pruning of stale entries required. When there's
+  // nothing dated coming up, the panel falls back to regularSchedule below.
   eventsLookaheadDays: 30,
   eventsMaxShown: 5,
   events: [
-    { date: "2026-07-26", title: "Big Walnut Community Worship", meta: "Sunday · 10:00 AM · BWMS Auditorium · Common Table joining" },
-    { date: "2026-08-02", title: "Common Table Church",       meta: "Sunday · 5:00 PM · Table Meal Night — Bring Your Favorite Cookout Food to Share" },
   ],
+
+  // Shown in the "Upcoming" panel whenever there are no dated events in the
+  // window above — keeps the panel useful instead of going blank.
+  regularSchedule: {
+    heading: "Regular Worship Schedule",
+    items: [
+      { name: "Grace Church", meta: "Sunday mornings · 10:30 AM · in the Commons Gym" },
+      { name: "Common Table Church", meta: "Sunday evenings · 5:15 PM · in the Commons Café" },
+    ],
+    note: "Please use the provided QR code to check the schedule of any of our other tenants.",
+  },
 
   tickerItems: [
     "Welcome to The Galena Commons — Community · Commerce · Connection",
@@ -718,7 +772,23 @@ function renderEvents() {
 
   const root = document.getElementById('eventList');
   if (!upcoming.length) {
-    root.innerHTML = `<div style="font-family:'Raleway',sans-serif;color:var(--cream-dim);font-size:1.1vw;opacity:0.7;">Nothing new posted for the next ${lookahead} days — see tenant hours at left.</div>`;
+    const sched = CONFIG.regularSchedule;
+    if (sched && sched.items && sched.items.length) {
+      root.innerHTML = `
+        <div class="sched-fallback-heading">${esc(sched.heading)}</div>
+        ${sched.items.map(item => `
+          <div class="sched-fallback-row">
+            <span class="dot"></span>
+            <div>
+              <div class="sched-fallback-name">${esc(item.name)}</div>
+              <div class="sched-fallback-meta">${esc(item.meta)}</div>
+            </div>
+          </div>`).join('')}
+        ${sched.note ? `<div class="sched-fallback-note">${esc(sched.note)}</div>` : ''}
+      `;
+    } else {
+      root.innerHTML = `<div style="font-family:'Raleway',sans-serif;color:var(--cream-dim);font-size:1.1vw;opacity:0.7;">Nothing new posted for the next ${lookahead} days — see tenant hours at left.</div>`;
+    }
     return;
   }
   root.innerHTML = upcoming.map(e => {
