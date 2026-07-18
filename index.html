@@ -26,9 +26,9 @@
   header { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 2vh 3.5vw; border-bottom: 1px solid rgba(233,200,118,0.25); }
   .brand { display: flex; align-items: center; gap: 1.2vw; }
   .brand svg { width: 4vw; height: 4vw; min-width: 44px; min-height: 44px; }
-  .brand-text .name { font-family: 'Cinzel', Georgia, serif; font-size: 2.4vw; letter-spacing: 0.04em; line-height: 1; }
+  .brand-text .name { font-family: 'Cinzel', Georgia, serif; font-size: 2.7vw; letter-spacing: 0.04em; line-height: 1; }
   .brand-text .name .commons { color: var(--honey); }
-  .brand-text .addr { font-family: 'Raleway', sans-serif; font-size: 0.9vw; color: var(--cream-dim); letter-spacing: 0.08em; margin-top: 0.4vh; text-transform: uppercase; }
+  .brand-text .addr { font-family: 'Raleway', sans-serif; font-size: 1.05vw; color: var(--cream-dim); letter-spacing: 0.08em; margin-top: 0.5vh; text-transform: uppercase; }
   /* Persistent time/date overlay — sits above ALL slides (main + every
      business slide), not nested inside any one slide. A semi-opaque dark
      pill behind it guarantees contrast whether the active slide underneath
@@ -49,32 +49,36 @@
     padding: 0.8vh 1.1vw;
     pointer-events: none;
   }
-  .corner-clock .time { font-size: 1.3vw; font-weight: 300; line-height: 1; }
-  .corner-clock .date { font-size: 0.65vw; opacity: 0.8; margin-top: 0.3vh; letter-spacing: 0.06em; text-transform: uppercase; }
+  .corner-clock .time { font-size: 1.6vw; font-weight: 400; line-height: 1; }
+  .corner-clock .date { font-size: 0.8vw; opacity: 0.85; margin-top: 0.4vh; letter-spacing: 0.06em; text-transform: uppercase; }
   main { flex: 1; display: grid; grid-template-columns: 1.1fr 1fr; min-height: 0; }
   .panel { padding: 2.5vh 3.5vw; overflow: hidden; }
   .panel + .panel { border-left: 1px solid rgba(233,200,118,0.2); }
-  .panel h2 { font-family: 'Cinzel', Georgia, serif; font-size: 1.3vw; letter-spacing: 0.1em; color: var(--honey); text-transform: uppercase; margin-bottom: 2vh; display: flex; align-items: center; gap: 0.8vw; }
+  .panel h2 { font-family: 'Cinzel', Georgia, serif; font-size: 1.55vw; letter-spacing: 0.1em; color: var(--honey); text-transform: uppercase; margin-bottom: 2.2vh; display: flex; align-items: center; gap: 0.8vw; }
   .panel h2::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(233,200,118,0.4), transparent); }
-  .floor-block { margin-bottom: 2vh; }
-  .floor-label { font-family: 'Raleway', sans-serif; font-size: 0.85vw; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); margin-bottom: 0.8vh; }
-  .tenant-row { display: flex; align-items: baseline; gap: 1vw; padding: 0.8vh 0; border-bottom: 1px dotted rgba(247,243,236,0.18); font-size: 1.4vw; }
-  .tenant-row .dot { width: 0.45vw; height: 0.45vw; min-width: 5px; min-height: 5px; border-radius: 50%; background: var(--honey); flex-shrink: 0; }
+  .floor-block { margin-bottom: 2.2vh; }
+  .floor-label { font-family: 'Raleway', sans-serif; font-size: 1vw; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); margin-bottom: 1vh; }
+  .tenant-row { display: flex; align-items: baseline; gap: 1vw; padding: 1vh 0; border-bottom: 1px dotted rgba(247,243,236,0.18); font-size: 1.65vw; }
+  .tenant-row .dot { width: 0.5vw; height: 0.5vw; min-width: 6px; min-height: 6px; border-radius: 50%; background: var(--honey); flex-shrink: 0; }
   .tenant-row .tname { font-weight: 600; }
-  .tenant-row .ttag { font-family: 'Raleway', sans-serif; font-size: 0.85vw; color: var(--cream-dim); margin-left: auto; }
-  .event-card { display: flex; gap: 1.2vw; padding: 1.4vh 0; border-bottom: 1px solid rgba(247,243,236,0.1); }
-  .event-date { flex-shrink: 0; width: 4.4vw; text-align: center; background: rgba(107,142,90,0.18); border: 1px solid rgba(107,142,90,0.4); border-radius: 8px; padding: 0.7vh 0; font-family: 'Raleway', sans-serif; }
-  .event-date .mon { font-size: 0.75vw; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); }
-  .event-date .day { font-size: 1.7vw; font-weight: 700; line-height: 1.1; }
-  .event-info .etitle { font-size: 1.25vw; font-weight: 600; }
-  .event-info .emeta { font-family: 'Raleway', sans-serif; font-size: 0.9vw; color: var(--cream-dim); margin-top: 0.3vh; }
+  .tenant-row .ttag { font-family: 'Raleway', sans-serif; font-size: 1vw; color: var(--cream-dim); margin-left: auto; }
+  .event-card { display: flex; gap: 1.3vw; padding: 1.6vh 0; border-bottom: 1px solid rgba(247,243,236,0.1); }
+  .event-date { flex-shrink: 0; width: 5vw; text-align: center; background: rgba(107,142,90,0.18); border: 1px solid rgba(107,142,90,0.4); border-radius: 8px; padding: 0.9vh 0; font-family: 'Raleway', sans-serif; }
+  .event-date.is-today { background: rgba(233,200,118,0.22); border-color: rgba(233,200,118,0.6); }
+  .event-date .mon { font-size: 0.85vw; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); }
+  .event-date.is-today .mon { color: var(--honey); }
+  .event-date .day { font-size: 1.95vw; font-weight: 700; line-height: 1.1; }
+  .event-info { display: flex; flex-direction: column; justify-content: center; }
+  .event-info .etitle { font-size: 1.5vw; font-weight: 600; display: flex; align-items: center; gap: 0.6vw; }
+  .event-info .emeta { font-family: 'Raleway', sans-serif; font-size: 1.05vw; color: var(--cream-dim); margin-top: 0.4vh; }
+  .today-badge { font-family: 'Raleway', sans-serif; font-size: 0.7vw; font-weight: 700; letter-spacing: 0.1em; color: var(--navy-deep); background: var(--honey); padding: 0.25vh 0.6vw; border-radius: 20px; }
   footer { flex-shrink: 0; display: flex; align-items: center; gap: 2vw; padding: 1.4vh 3.5vw; background: rgba(0,0,0,0.18); border-top: 1px solid rgba(233,200,118,0.25); }
   .wx { display: flex; align-items: center; gap: 0.8vw; flex-shrink: 0; font-family: 'Raleway', sans-serif; }
   .wx svg { width: 2.4vw; height: 2.4vw; min-width: 28px; }
-  .wx .temp { font-size: 1.7vw; font-weight: 700; }
-  .wx .cond { font-size: 0.85vw; color: var(--cream-dim); }
+  .wx .temp { font-size: 1.9vw; font-weight: 700; }
+  .wx .cond { font-size: 1vw; color: var(--cream-dim); }
   .ticker-wrap { flex: 1; overflow: hidden; white-space: nowrap; mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent); }
-  .ticker { display: inline-block; padding-left: 100%; font-family: 'Raleway', sans-serif; font-size: 1vw; animation: scroll-left var(--ticker-duration, 40s) linear infinite; }
+  .ticker { display: inline-block; padding-left: 100%; font-family: 'Raleway', sans-serif; font-size: 1.15vw; animation: scroll-left var(--ticker-duration, 40s) linear infinite; }
   .ticker .sep { color: var(--honey); margin: 0 1.4vw; }
   @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-100%); } }
   .progress-dots { display: flex; gap: 0.5vw; flex-shrink: 0; }
@@ -146,16 +150,16 @@
   }
   .logo-text-name {
     font-family: 'Cinzel', Georgia, serif;
-    font-size: 5.5vw;
+    font-size: 6vw;
     line-height: 1.1;
     font-weight: 700;
   }
   .logo-text-sub {
     font-family: 'Raleway', sans-serif;
-    font-size: 1.6vw;
+    font-size: 1.8vw;
     font-weight: 300;
-    margin-top: 1vh;
-    opacity: 0.7;
+    margin-top: 1.1vh;
+    opacity: 0.75;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -168,37 +172,37 @@
     align-items: center;
     gap: 0.7vw;
     font-family: 'Raleway', sans-serif;
-    font-size: 1.55vw;
+    font-size: 1.75vw;
     font-weight: 700;
     letter-spacing: 0.02em;
     opacity: 0.99;
-    margin-bottom: 1vh;
+    margin-bottom: 1.1vh;
   }
-  .biz-wayfind svg { width: 1.5vw; height: 1.5vw; min-width: 20px; flex-shrink: 0; }
+  .biz-wayfind svg { width: 1.7vw; height: 1.7vw; min-width: 22px; flex-shrink: 0; }
 
   /* Category/schedule label — decorative context, intentionally quieter
      than the wayfinding line above it. */
   .biz-eyebrow {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.85vw;
+    font-size: 1vw;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    opacity: 0.55;
-    margin-bottom: 1.8vh;
+    opacity: 0.6;
+    margin-bottom: 2vh;
   }
   .biz-tagline {
     font-family: 'Raleway', sans-serif;
-    font-size: 1.3vw;
+    font-size: 1.55vw;
     font-weight: 300;
-    line-height: 1.65;
-    opacity: 0.88;
-    margin-bottom: 2vh;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin-bottom: 2.2vh;
   }
   .biz-url {
     font-family: 'Raleway', sans-serif;
-    font-size: 1vw;
+    font-size: 1.15vw;
     letter-spacing: 0.06em;
-    opacity: 0.5;
+    opacity: 0.55;
   }
 
   .biz-right {
@@ -218,7 +222,7 @@
   }
   .qr-label {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.7vw;
+    font-size: 0.85vw;
     color: #1f3a5f;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -230,9 +234,9 @@
     text-align: center;
     padding: 1.5vh 0 2vh;
     font-family: 'Cinzel', Georgia, serif;
-    font-size: 0.8vw;
+    font-size: 0.9vw;
     letter-spacing: 0.15em;
-    opacity: 0.28;
+    opacity: 0.3;
   }
   .biz-bg-dots {
     position: absolute;
@@ -270,29 +274,29 @@
   }
   .counselor-name {
     font-family: 'Cinzel', Georgia, serif;
-    font-size: 1.1vw;
+    font-size: 1.3vw;
     font-weight: 600;
-    margin-bottom: 1vh;
+    margin-bottom: 1.1vh;
     color: #f7f3ec;
   }
   .counselor-bio {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.9vw;
+    font-size: 1.05vw;
     font-weight: 300;
     line-height: 1.6;
-    opacity: 0.85;
-    margin-bottom: 1.2vh;
+    opacity: 0.88;
+    margin-bottom: 1.3vh;
   }
   .counselor-focus {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.9vw;
+    font-size: 1.05vw;
     font-weight: 600;
     line-height: 1.5;
-    margin-bottom: 1.2vh;
+    margin-bottom: 1.3vh;
   }
   .counselor-meta {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.8vw;
+    font-size: 0.95vw;
     letter-spacing: 0.04em;
     opacity: 0.7;
     line-height: 1.5;
@@ -329,7 +333,7 @@
   }
   .rental-headline {
     font-family: 'Cinzel', Georgia, serif;
-    font-size: 2.6vw;
+    font-size: 2.9vw;
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
@@ -355,28 +359,28 @@
   }
   .rental-col-title {
     font-family: 'Cinzel', Georgia, serif;
-    font-size: 1.9vw;
+    font-size: 2.1vw;
     font-weight: 700;
     letter-spacing: 0.02em;
-    margin-bottom: 0.6vh;
+    margin-bottom: 0.7vh;
   }
   .rental-col-sub {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.9vw;
+    font-size: 1.05vw;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    opacity: 0.6;
-    margin-bottom: 1.4vh;
+    opacity: 0.65;
+    margin-bottom: 1.5vh;
   }
   .rental-col-items {
     list-style: none;
     padding: 0;
     margin: 0;
     font-family: 'Raleway', sans-serif;
-    font-size: 1.15vw;
+    font-size: 1.35vw;
     font-weight: 300;
     line-height: 1.9;
-    opacity: 0.92;
+    opacity: 0.94;
   }
   .rental-col-items li {
     padding-left: 1.4vw;
@@ -401,10 +405,10 @@
   .rental-contact {
     text-align: center;
     font-family: 'Raleway', sans-serif;
-    font-size: 1vw;
+    font-size: 1.15vw;
     letter-spacing: 0.02em;
-    opacity: 0.85;
-    margin-top: 1.4vh;
+    opacity: 0.88;
+    margin-top: 1.5vh;
   }
 
   /* === EVENT SLIDES === */
@@ -426,33 +430,33 @@
   }
   .event-slide-date {
     font-family: 'Raleway', sans-serif;
-    font-size: 1.1vw;
+    font-size: 1.3vw;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     font-weight: 600;
-    margin-bottom: 2vh;
+    margin-bottom: 2.1vh;
   }
   .event-slide-title {
     font-family: 'Cinzel', Georgia, serif;
-    font-size: 3.8vw;
+    font-size: 4.2vw;
     line-height: 1.15;
-    margin-bottom: 3vh;
+    margin-bottom: 3.1vh;
     color: #f7f3ec;
   }
   .event-slide-details {
     font-family: 'Raleway', sans-serif;
-    font-size: 1.3vw;
+    font-size: 1.55vw;
     font-weight: 300;
-    line-height: 1.7;
-    opacity: 0.88;
-    margin-bottom: 2.5vh;
+    line-height: 1.65;
+    opacity: 0.9;
+    margin-bottom: 2.6vh;
   }
   .event-slide-note {
     font-family: 'Raleway', sans-serif;
-    font-size: 1vw;
+    font-size: 1.15vw;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    opacity: 0.7;
+    opacity: 0.75;
   }
 </style>
 </head>
@@ -546,6 +550,17 @@ const CONFIG = {
   mainSlideDuration: 15000,
   bizSlideDuration:  12000,
 
+  // ---- Kiosk reliability ----
+  // This page runs unattended 24/7 on a TV/browser, so it periodically
+  // forces a hard reload (clears memory buildup, picks up any file edits)
+  // in addition to the existing wake-lock + silent-video sleep prevention
+  // further down this file.
+  reload: {
+    enabled: true,
+    dailyTimes: ["04:00"], // "HH:MM" 24-hour, local time — reloads at these times every day
+    everyHours: 6,         // ALSO force a reload every N hours since page load (0 = off)
+  },
+
   tenants: [
     { floor: "First Floor", list: [
       { name: "Common Tax & Bookkeeping", tag: "Tax · Bookkeeping · IRS Rep" },
@@ -565,9 +580,16 @@ const CONFIG = {
   // them here every week just crowds out the entries that actually need
   // advance notice. Only add an entry when it's a one-off, a schedule
   // change, or otherwise not already covered by a tenant tag.
+  //
+  // Each entry needs a real "date" (YYYY-MM-DD, with year). The panel is
+  // now fully automatic: it drops anything before today, sorts what's left
+  // by date, shows only the next eventsMaxShown, and flags the one
+  // happening today — no manual pruning of stale entries required.
+  eventsLookaheadDays: 30,
+  eventsMaxShown: 5,
   events: [
-    { month: "JUL", day: "05", title: "Big Walnut Community Worship", meta: "Sunday · 10:00 AM · BWMS Auditorium · Common Table joining" },
-    { month: "JUL", day: "12", title: "Common Table Church",       meta: "Sunday · 5:00 PM · Table Meal Night — Bring Your Favorite Cookout Food to Share" },
+    { date: "2026-07-26", title: "Big Walnut Community Worship", meta: "Sunday · 10:00 AM · BWMS Auditorium · Common Table joining" },
+    { date: "2026-08-02", title: "Common Table Church",       meta: "Sunday · 5:00 PM · Table Meal Night — Bring Your Favorite Cookout Food to Share" },
   ],
 
   tickerItems: [
@@ -679,12 +701,34 @@ function renderTenants() {
     </div>`).join('');
 }
 
+const MONTH_ABBR = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+
 function renderEvents() {
-  document.getElementById('eventList').innerHTML = CONFIG.events.map(e => `
+  const today = startOfDay(new Date());
+  const lookahead = CONFIG.eventsLookaheadDays || 30;
+  const maxShown = CONFIG.eventsMaxShown || 5;
+  const cutoff = new Date(today); cutoff.setDate(cutoff.getDate() + lookahead);
+
+  const upcoming = (CONFIG.events || [])
+    .map(e => ({ ...e, _d: startOfDay(new Date(e.date + 'T00:00:00')) }))
+    .filter(e => e._d >= today && e._d <= cutoff)
+    .sort((a, b) => a._d - b._d)
+    .slice(0, maxShown);
+
+  const root = document.getElementById('eventList');
+  if (!upcoming.length) {
+    root.innerHTML = `<div style="font-family:'Raleway',sans-serif;color:var(--cream-dim);font-size:1.1vw;opacity:0.7;">Nothing new posted for the next ${lookahead} days — see tenant hours at left.</div>`;
+    return;
+  }
+  root.innerHTML = upcoming.map(e => {
+    const isToday = e._d.getTime() === today.getTime();
+    return `
     <div class="event-card">
-      <div class="event-date"><div class="mon">${esc(e.month)}</div><div class="day">${esc(e.day)}</div></div>
-      <div class="event-info"><div class="etitle">${esc(e.title)}</div><div class="emeta">${esc(e.meta)}</div></div>
-    </div>`).join('');
+      <div class="event-date${isToday ? ' is-today' : ''}"><div class="mon">${MONTH_ABBR[e._d.getMonth()]}</div><div class="day">${e._d.getDate()}</div></div>
+      <div class="event-info"><div class="etitle">${esc(e.title)}${isToday ? '<span class="today-badge">TODAY</span>' : ''}</div><div class="emeta">${esc(e.meta)}</div></div>
+    </div>`;
+  }).join('');
 }
 
 function renderTicker() {
@@ -938,6 +982,7 @@ updateClock(); updateWeather();
 goTo(0);
 setInterval(updateClock, 15000);
 setInterval(updateWeather, 900000);
+setInterval(renderEvents, 3600000); // re-check dates hourly (handles midnight rollover / expiring events)
 
 // Sleep prevention, layer 2: the Wake Lock API. Support on Fire TV's Silk
 // browser is inconsistent across Fire OS versions, so this is a bonus on
@@ -954,6 +999,31 @@ requestWakeLock();
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') requestWakeLock();
 });
+
+// Scheduled hard reloads — clears any memory buildup from long uptime and
+// picks up file edits the next time this is redeployed.
+(function initScheduledReload() {
+  const cfg = CONFIG.reload;
+  if (!cfg || !cfg.enabled) return;
+  const loadedAt = Date.now();
+  let lastFiredMinuteKey = null;
+  setInterval(() => {
+    const now = new Date();
+    if (cfg.dailyTimes && cfg.dailyTimes.length) {
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const minuteKey = `${now.toDateString()} ${hh}:${mm}`;
+      if (cfg.dailyTimes.includes(`${hh}:${mm}`) && minuteKey !== lastFiredMinuteKey) {
+        lastFiredMinuteKey = minuteKey;
+        location.reload();
+        return;
+      }
+    }
+    if (cfg.everyHours && Date.now() - loadedAt >= cfg.everyHours * 3600000) {
+      location.reload();
+    }
+  }, 30000);
+})();
 </script>
 </body>
 </html>
